@@ -42,7 +42,7 @@ parser.add_argument('--config',  '-c',
 
 parser.add_argument('--checkpoint',
                     help='定义需要加载的模型文件',
-                    default='logs/CategoricalVAEStock/version_0/checkpoints/epoch=0-step=7462.ckpt')
+                    default='logs/CategoricalVAEStock/version_6/checkpoints/epoch=0-step=7462.ckpt')
 
 
 args = parser.parse_args()
@@ -57,10 +57,11 @@ model = vae_models[config['model_params']['name']](**config['model_params'])
 experiment = VAEXperiment.load_from_checkpoint(args.checkpoint, vae_model=model, params=config['exp_params'])
 model = experiment.model
 # 保存模型文件
-torch.save(model, "logs/CategoricalVAEStock/version_0/checkpoints/model.pt")
+torch.save(model, "logs/CategoricalVAEStock/version_6/checkpoints/model.pt")
 model = model.cuda()
-datas = text_preprocess("trade/20220701_110044.SZ_buy.npz")
-batch_size = 10
+model.eval()
+datas = text_preprocess("/data/trade/20220701_110044.SZ_buy.npz")
+batch_size = 5
 number = len(datas)
 
 for i in range(0, number, batch_size):
@@ -70,6 +71,8 @@ for i in range(0, number, batch_size):
     sub_data = torch.tensor(sub_data)
     sub_data = sub_data.cuda()
     output = model.encode(sub_data)[0]
+    
+    # print("output:",output[-2:])
     output = output.mean(1)
     predicts = torch.softmax(output, -1)
     labels = predicts.argmax(-1).cpu().numpy()
