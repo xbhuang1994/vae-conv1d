@@ -42,7 +42,7 @@ parser.add_argument('--config',  '-c',
 
 parser.add_argument('--checkpoint',
                     help='定义需要加载的模型文件',
-                    default='logs/CategoricalVAEStock/version_0/checkpoints/epoch=1-step=2958.ckpt')
+                    default='logs/CategoricalVAEStock/version_0/checkpoints/epoch=0-step=7462.ckpt')
 
 
 args = parser.parse_args()
@@ -59,7 +59,7 @@ model = experiment.model
 # 保存模型文件
 torch.save(model, "logs/CategoricalVAEStock/version_0/checkpoints/model.pt")
 model = model.cuda()
-datas = text_preprocess("trade/20220701_110044.SZ_sell.npz")
+datas = text_preprocess("trade/20220701_110044.SZ_buy.npz")
 batch_size = 10
 number = len(datas)
 

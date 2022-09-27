@@ -1,7 +1,7 @@
 model_params:
   name: "CategoricalVAEStock"
-  in_channels: 10 # 10个特征
-  latent_dim: 256
+  in_channels: 3 # 10个特征
+  latent_dim: 512
   categorical_dim: 40
   temperature: 0.5
   anneal_rate: 0.00003

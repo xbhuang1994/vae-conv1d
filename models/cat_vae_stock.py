@@ -30,7 +30,7 @@ class CategoricalVAEStock(BaseVAE):
 
         modules = []
         if hidden_dims is None:
-            hidden_dims = [32, 64, 128]
+            hidden_dims = [32, 64, 128, 256, 512]
         self.last_hidden_dims = hidden_dims[-1]
         kernel_size = 4
         stride = 2
@@ -69,7 +69,7 @@ class CategoricalVAEStock(BaseVAE):
                                        kernel_size=kernel_size,
                                        stride=stride,
                                        padding=padding,
-                                       output_padding=0
+                                       output_padding=1 if i == 2 else 0
                                        ),
                     nn.BatchNorm1d(hidden_dims[i + 1]),
                     nn.LeakyReLU())
@@ -88,7 +88,7 @@ class CategoricalVAEStock(BaseVAE):
             nn.BatchNorm1d(hidden_dims[-1]),
             nn.LeakyReLU(),
             nn.Conv1d(hidden_dims[-1],
-                      out_channels=10,  # 10 是10个特征
+                      out_channels=3,  # 3 是3个特征
                       kernel_size=kernel_size,
                       padding=padding
                       ),
