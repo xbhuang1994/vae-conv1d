@@ -2,7 +2,7 @@ model_params:
   name: "CategoricalVAEStock"
   in_channels: 3 # 10个特征
   latent_dim: 512
-  categorical_dim: 40
+  categorical_dim: 150 #分类类别
   temperature: 0.5
   anneal_rate: 0.00003
   anneal_interval: 100
@@ -10,8 +10,8 @@ model_params:
 
 data_params:
   data_path: "data/"
-  train_batch_size: 64
-  val_batch_size: 64
+  train_batch_size: 256
+  val_batch_size: 256
   patch_size: 64
   num_workers: 4
 
