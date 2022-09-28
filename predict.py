@@ -60,10 +60,9 @@ model = experiment.model
 torch.save(model, "logs/CategoricalVAEStock/version_6/checkpoints/model.pt")
 model = model.cuda()
 model.eval()
-datas = text_preprocess("/data/trade/20220701_110044.SZ_buy.npz")
-batch_size = 5
+datas = text_preprocess("/data/trade/20220701_110044.SZ_buy.npz",100,5)
+batch_size = 50
 number = len(datas)
-
 for i in range(0, number, batch_size):
     batch_data = datas[i:i+number]
     sub_data = [np.transpose(sub_data, (1, 0)).astype(np.float32) for sub_data in batch_data]
@@ -77,3 +76,4 @@ for i in range(0, number, batch_size):
     predicts = torch.softmax(output, -1)
     labels = predicts.argmax(-1).cpu().numpy()
     print(labels)
+    break

@@ -37,8 +37,9 @@ def preprocess_data(data):
     data = data.dropna()
     return data
 
-
-def text_preprocess(filename):
+# 按照多个数据进行切片
+# batch_sample = 100  
+def text_preprocess(filename,batch_sample = 100,step = 50):
     with open(filename, 'rb') as f:
         data = np.load(f, allow_pickle=True)
         data = data['arr_0']
@@ -49,9 +50,8 @@ def text_preprocess(filename):
     new_data = new_data.sort_index()
     number = len(new_data)
     all_data = []
-    # 按照多个数据进行切片
-    batch_sample = 100  # buy，sell个12个数据
-    for i in range(0, number-batch_sample, int(batch_sample * 0.5)):
+    # buy，sell个12个数据
+    for i in range(0, number-batch_sample, step):
         sub_data = new_data[i:i+batch_sample]
         # 不对价格的方差进行归一化
         sub_data = sub_data.apply(lambda x: (x-np.min(x))/max((np.max(x)-np.min(x)), 1))
